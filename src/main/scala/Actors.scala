@@ -24,10 +24,11 @@ class requester extends Actor{
 }
 
 object Main extends App {
-  val system = ActorSystem("HelloSystem")
-  val responceActor = system.actorOf(Props[replyer], name = "helloactor")
+  val system = ActorSystem("HelloSystem0")
+  val selection = system.actorSelection("akka.tcp://HelloSystem@127.0.0.1:4555/helloactor")
+
   val requesterActor = system.actorOf(Props[requester], name = "requester")
-  requesterActor.tell("hello", responceActor)
+  selection.tell("hello", requesterActor)
   val msg = new message__(message = Array[Byte](0x22.toByte), desc="input")
-  responceActor.tell(msg, requesterActor)
+  selection.tell(msg, requesterActor)
 }
