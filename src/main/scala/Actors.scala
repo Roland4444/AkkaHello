@@ -21,17 +21,13 @@ class requester extends Actor{
   def receive ={
     case reply: reply => println(reply.getdesc)
   }
-
 }
 
 object Main extends App {
   val system = ActorSystem("HelloSystem")
-  // default Actor constructor
   val responceActor = system.actorOf(Props[replyer], name = "helloactor")
   val requesterActor = system.actorOf(Props[requester], name = "requester")
   requesterActor.tell("hello", responceActor)
   val msg = new message__(message = Array[Byte](0x22.toByte), desc="input")
   responceActor.tell(msg, requesterActor)
-
-
 }
